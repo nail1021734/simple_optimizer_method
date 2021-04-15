@@ -24,14 +24,14 @@ def goldSearch(func, d, cur_pos, min_b, max_b, tol):
     return {'X': min_x, 'y': func(cur_pos + min_x * d)}
 
 
-def powell(func, X, min_b, max_b, tol):
-    dim = X.size
+def powell(func, init_X, min_b, max_b, tol):
+    dim = init_X.size
     d = np.eye(dim)
     new_x = None
 
-    min_x_list = [X]
-    while new_x is None or np.max(np.abs(X - new_x)) > tol:
-        cur_pos = X
+    min_x_list = [init_X]
+    while new_x is None or np.max(np.abs(init_X - new_x)) > tol:
+        cur_pos = init_X
 
         for i in range(dim):
             result = goldSearch(
@@ -48,10 +48,10 @@ def powell(func, X, min_b, max_b, tol):
 
         for i in range(dim - 1):
             d[:, i] = d[:, i + 1]
-        d[:, dim - 1] = cur_pos - X
+        d[:, dim - 1] = cur_pos - init_X
         d[:, dim - 1] = d[:, dim - 1] / np.linalg.norm(d[:, dim - 1], ord=2)
 
-        new_x = X
+        new_x = init_X
         result = goldSearch(
             func=func,
             d=d[:, dim - 1],
@@ -61,8 +61,8 @@ def powell(func, X, min_b, max_b, tol):
             tol=tol
         )
         lmb = result['X']
-        X = cur_pos + lmb * d[:, dim - 1]
-        min_x_list.append(X)
-    min_y = func(X)
+        init_X = cur_pos + lmb * d[:, dim - 1]
+        min_x_list.append(init_X)
+    min_y = func(init_X)
 
-    return {'X': X, 'y': min_y, 'x_list': min_x_list}
+    return {'X': init_X, 'y': min_y, 'x_list': min_x_list}

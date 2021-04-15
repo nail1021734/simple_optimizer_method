@@ -14,7 +14,7 @@ def plot_func(f, lb, ub, filename):
     plt.plot(x, y)
     plt.xlabel('x')
     plt.ylabel('y')
-    plt.savefig(f'python_code/result_plot/{filename}')
+    plt.savefig(f'result_plot/{filename}')
     plt.clf()
 
 
@@ -31,8 +31,9 @@ def Q1():
     )
     print(f'golden search: min_value={result["y"]}, min_point={result["X"]}')
     y_list = [f(x) for x in result['x_list']]
-    plt.plot(range(len(y_list)), y_list)
-    plt.savefig('python_code/result_plot/gold.png')
+    plt.scatter(range(len(y_list)), y_list)
+    plt.xticks(range(len(y_list)), range(len(y_list)))
+    plt.savefig('result_plot/gold.png')
     plt.clf()
 
     result = oneDim.Dichotomous(
@@ -47,7 +48,8 @@ def Q1():
         f'Dichotomous search: min_value={result["y"]}, min_point={result["X"]}')
     # plt.plot(range(len(y_list)), y_list)
     plt.scatter(range(len(y_list)), y_list)
-    plt.savefig('python_code/result_plot/Dichotomous.png')
+    plt.xticks(range(len(y_list)), range(len(y_list)))
+    plt.savefig('result_plot/Dichotomous.png')
     plt.clf()
 
 
@@ -58,18 +60,17 @@ def Q2():
 
     result = cyclic.cyclic(
         func=f,
-        init_X=[-1, 1],
+        init_X=[1, -1],
         x_bound_list=[[-2, 2], [-2, 2]],
-        tol=1e-3
+        tol=1e-5
     )
     print(
         f'cyclic coordinate method: min_value={result["y"]}, min_point={result["X"]}')
     x, y = zip(*result['x_list'])
-    plt.plot(x, y)
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.scatter(x, y, color='red')
-    plt.savefig('python_code/result_plot/cyclic.png')
+    plt.plot(x, y, marker='o')
+    plt.xlabel('x1')
+    plt.ylabel('x2')
+    plt.savefig('result_plot/cyclic.png')
     plt.clf()
 
 
@@ -80,7 +81,7 @@ def Q3():
 
     result = powell.powell(
         func=f,
-        X=np.array([-1, -1]),
+        init_X=np.array([1, -1]),
         min_b=-2,
         max_b=2,
         tol=1e-5
@@ -89,8 +90,9 @@ def Q3():
     print(
         f'powell\'s method: min_value={result["y"]}, min_point={result["X"]}')
     plt.plot(x, y)
-    # plt.scatter(x, y, color='red')
-    plt.savefig('python_code/result_plot/powell.png')
+    plt.xlabel('x1')
+    plt.ylabel('x2')
+    plt.savefig('result_plot/powell.png')
 
 
 def main():
