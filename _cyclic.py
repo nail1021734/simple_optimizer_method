@@ -1,6 +1,6 @@
 import copy
 import matplotlib as plt
-
+import random
 
 def E_dist(v1, v2):
     return sum([(x1 - x2)**2 for x1, x2 in zip(v1, v2)])**0.5
@@ -38,10 +38,10 @@ def goldSearch(func, a, b, tol):
     return min_y, min_x
 
 
-def cyclic(func, x_bound_list, tol):
-    min_x = []
-    for lb, rb in x_bound_list:
-        min_x.append((lb + rb) / 2 + 1)
+def cyclic(func, init_X, x_bound_list, tol):
+    min_x = init_X
+    # for lb, rb in x_bound_list:
+    #     min_x.append((lb + rb) / 2 + 1)
 
     min_x_list = [min_x]
     while True:

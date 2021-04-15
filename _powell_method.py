@@ -38,8 +38,8 @@ def powell(func, X, min_b, max_b, tol):
                 func=func,
                 d=d[:, i],
                 cur_pos=cur_pos,
-                min_b=min_b,
-                max_b=max_b,
+                min_b=min_b - cur_pos[0],
+                max_b=max_b - cur_pos[1],
                 tol=tol
             )
             lmb = result['X']
@@ -49,14 +49,15 @@ def powell(func, X, min_b, max_b, tol):
         for i in range(dim - 1):
             d[:, i] = d[:, i + 1]
         d[:, dim - 1] = cur_pos - X
+        d[:, dim - 1] = d[:, dim - 1] / np.linalg.norm(d[:, dim - 1], ord=2)
 
         new_x = X
         result = goldSearch(
             func=func,
             d=d[:, dim - 1],
             cur_pos=cur_pos,
-            min_b=min_b,
-            max_b=max_b,
+            min_b=min_b - cur_pos[0],
+            max_b=max_b - cur_pos[1],
             tol=tol
         )
         lmb = result['X']
